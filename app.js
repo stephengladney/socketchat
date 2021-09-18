@@ -10,14 +10,18 @@ const server = app.listen(3000, () => {
 
 const io = socket(server)
 
-io.on("connection", socket => {
+io.on("connection", (socket) => {
   console.log(`New socket opened: ${socket.id}`)
 
-  socket.on("chat", data => {
+  socket.on("chat", (data) => {
     io.sockets.emit("chat", data)
   })
 
-  socket.on("typing", data => {
+  socket.on("typing", (data) => {
     socket.broadcast.emit("typing", data)
+  })
+
+  socket.on("stopped typing", (data) => {
+    socket.broadcast.emit("stopped typing", data)
   })
 })
